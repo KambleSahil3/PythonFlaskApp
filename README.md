@@ -11,8 +11,8 @@ accepts connections on all network interfaces, making it reachable via the mappe
 
 ## Links
 
-- **GitHub Repository:** `https://github.com/<YOUR_GITHUB_USERNAME>/PythonFlaskApp`
-- **Docker Hub Image:** `https://hub.docker.com/r/<YOUR_DOCKER_USERNAME>/flask-app`
+- **GitHub Repository:** `https://github.com/KambleSahil3/PythonFlaskApp`
+- **Docker Hub Image:** `https://hub.docker.com/r/kamble3sahil/flask-app`
 
 ---
 
@@ -24,7 +24,7 @@ accepts connections on all network interfaces, making it reachable via the mappe
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/PythonFlaskApp.git
+git clone https://github.com/KambleSahil3/PythonFlaskApp.git
 cd PythonFlaskApp
 ```
 
@@ -55,8 +55,8 @@ pytest test_app.py -v
 
 ### 6. Pull and run directly from Docker Hub
 ```bash
-docker pull <YOUR_DOCKER_USERNAME>/flask-app:latest
-docker run -p 5000:5000 <YOUR_DOCKER_USERNAME>/flask-app:latest
+docker pull kamble3sahil/flask-app:latest
+docker run -p 5000:5000 kamble3sahil/flask-app:latest
 ```
 
 ### 7. Run the health monitoring script
