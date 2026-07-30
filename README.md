@@ -82,62 +82,8 @@ kubectl get pods          # wait for Running status
 minikube service flask-app-service   # opens the app in browser
 ```
 
----
-
-## Architecture & Design Choices
-
-### Dockerfile
-Uses `python:3.11-slim` to keep the image small. Dependencies are installed before
-copying source code to leverage Docker layer caching — rebuilds are fast when only
-`app.py` changes.
-
-### Docker Compose
-Single-service compose file with `env_file: .env` for secrets injection and a native
-`healthcheck` that polls `/health` every 10 seconds. No secrets are hardcoded.
-
-### Secrets Management
-- `.env` holds real values and is listed in `.gitignore` — never committed
-- `.env.example` with placeholder values is committed as a template
-- CI/CD uses GitHub Secrets (`DOCKER_USERNAME`, `DOCKER_PASSWORD`) for Docker Hub auth
-
-### CI/CD Pipeline (GitHub Actions)
-Three sequential jobs on every push/PR to `main`:
-1. **test** — installs deps and runs `pytest`
-2. **security-scan** — Trivy filesystem scan for CRITICAL/HIGH CVEs (`exit-code: 0` so it reports but doesn't block)
-3. **build-and-push** — builds and pushes image to Docker Hub (push to `main` only), tagged as `latest` and `<git-sha>`
-
-### Kubernetes
-Standard `Deployment` (2 replicas) + `NodePort` Service. Liveness and readiness probes
-both hit `/health` so Kubernetes automatically restarts unhealthy pods and only routes
-traffic to ready ones.
-
----
-
 ## Live Demo Video
 
 [Watch the walkthrough here](<PASTE_VIDEO_LINK_HERE>)
 
 ---
-
-## Project Structure
-
-```
-PythonFlaskApp/
-├── app.py                        # Flask application (bug fixed: host=0.0.0.0)
-├── test_app.py                   # pytest test suite (2 tests)
-├── requirements.txt              # Python dependencies
-├── Dockerfile                    # Container build file (python:3.11-slim)
-├── docker-compose.yml            # Local orchestration + health check
-├── health_check.sh               # Health polling script (every 10s)
-├── .env                          # Local secrets (gitignored)
-├── .env.example                  # Secrets template (committed)
-├── .gitignore
-├── k8s/
-│   ├── deployment.yaml           # Kubernetes Deployment (2 replicas + probes)
-│   └── service.yaml              # Kubernetes Service (NodePort 30080)
-├── .github/
-│   └── workflows/
-│       └── ci.yml                # GitHub Actions CI/CD pipeline
-├── TASKSHEET.md                  # Assessment task checklist
-└── VIDEO_SCRIPT.md               # Timestamped video walkthrough script
-```
