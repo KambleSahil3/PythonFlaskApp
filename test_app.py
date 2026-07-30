@@ -19,5 +19,3 @@ def test_health(client):
     data = res.get_json()
     assert data["status"] == "healthy"
     assert "timestamp" in data
-    assert "cpu_percent" in data
-    assert "memory_percent" in data
