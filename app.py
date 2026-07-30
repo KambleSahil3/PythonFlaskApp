@@ -18,7 +18,5 @@ def health():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    # BUG FIX: was host="127.0.0.1" which blocks Docker from exposing the port.
-    # Fixed to host="0.0.0.0" so the app is reachable outside the container.
     debug = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
     app.run(host="0.0.0.0", port=port, debug=debug)
