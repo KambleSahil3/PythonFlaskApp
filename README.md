@@ -75,7 +75,6 @@ docker run -p 5000:5000 kamble3sahil/flask-app:latest
 ```bash
 minikube start
 
-# Replace <DOCKER_USERNAME> in k8s/deployment.yaml with your Docker Hub username, then:
 kubectl apply -f k8s/
 
 kubectl get pods          # wait for Running status
